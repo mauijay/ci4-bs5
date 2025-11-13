@@ -1,4 +1,12 @@
 <?php
+/**
+ * User entity (extends Shield User)
+ *
+ * @package    App
+ * @category   Entities
+ * @license    MIT
+ * @link       https://github.com/mauijay/ci4-bs5
+ */
 
 namespace App\Entities;
 

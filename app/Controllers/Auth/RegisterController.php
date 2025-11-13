@@ -1,4 +1,12 @@
 <?php
+/**
+ * Register controller (extends Shield)
+ *
+ * @package    App
+ * @category   Controllers
+ * @license    MIT
+ * @link       https://github.com/mauijay/ci4-bs5
+ */
 
 namespace App\Controllers\Auth;
 
@@ -13,7 +21,7 @@ class RegisterController extends ShieldRegisterController
      */
     public function registerView()
     {
-        return view('auth/register', [
+        return (string) \call_user_func('view', 'auth/register', [
             'title' => 'Register',
         ]);
     }

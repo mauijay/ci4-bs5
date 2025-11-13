@@ -1,4 +1,12 @@
 <?php
+/**
+ * Login controller (extends Shield)
+ *
+ * @package    App
+ * @category   Controllers
+ * @license    MIT
+ * @link       https://github.com/mauijay/ci4-bs5
+ */
 
 namespace App\Controllers\Auth;
 
@@ -16,7 +24,7 @@ class LoginController extends ShieldLoginController
             return redirect()->to(config('Auth')->loginRedirect());
         }
 
-        return view('auth/login', [
+        return (string) \call_user_func('view', 'auth/login', [
             'title' => 'Login',
         ]);
     }
