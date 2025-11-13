@@ -1,0 +1,33 @@
+name: CI (PHP 8.3)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, intl, json, dom, curl, sqlite3
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Check platform requirements (8.3)
+        run: composer check-platform-reqs --no-dev
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit
