@@ -1,0 +1,15 @@
+{
+  "name": "ci4-starter",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "sass src/scss/style.scss public/assets/css/style.css --source-map",
+    "build": "sass src/scss/style.scss public/assets/css/style.css --style=compressed",
+    "watch": "sass --watch src/scss/style.scss:public/assets/css/style.css"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "sass": "^1.75.0"
+  }
+}
