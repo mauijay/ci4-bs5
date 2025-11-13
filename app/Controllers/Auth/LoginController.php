@@ -10,10 +10,10 @@
 
 namespace App\Controllers\Auth;
 
+use CodeIgniter\Shield\Controllers\LoginController as ShieldLogin;
 use CodeIgniter\HTTP\RedirectResponse;
-use CodeIgniter\Shield\Controllers\LoginController as ShieldLoginController;
 
-class LoginController extends ShieldLoginController
+class LoginController extends ShieldLogin
 {
     /**
      * Show the login form.
@@ -80,6 +80,13 @@ class LoginController extends ShieldLoginController
     /**
      * Log the user out (custom endpoint optional – default Shield route still available).
      */
+    public function logoutAction(): RedirectResponse
+    {
+        auth()->logout();
+        return redirect()->to(config('Auth')->logoutRedirect())
+            ->with('message', lang('Auth.logoutSuccess'));
+    }
+    
     public function logout(): RedirectResponse
     {
         auth()->logout();

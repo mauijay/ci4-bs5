@@ -8,8 +8,7 @@ use App\Controllers\Admin\Dashboard;
 use App\Controllers\Admin\Users;
 use App\Controllers\Admin\Settings as AdminSettings;
 use App\Controllers\Account\Settings as AccountSettings;
-// Example API v1 controller import (create when implementing)
-// use App\Controllers\Api\V1\Health; // Uncomment when the controller exists
+use App\Controllers\Api\V1\Health;
 
 /**
  * @var RouteCollection $routes
@@ -44,6 +43,5 @@ $routes->group('account', ['filter' => 'session'], static function ($routes): vo
 
 // API v1 group – protected with Shield token filter (dot-named routes)
 $routes->group('api/v1', ['filter' => 'token'], static function ($routes): void {
-    // Example: Health check endpoint (uncomment after creating controller)
-    // $routes->get('health', [Health::class, 'index'], ['as' => 'api.v1.health.index']);
+    $routes->get('health', [Health::class, 'index'], ['as' => 'api.v1.health.index']);
 });
