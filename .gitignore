@@ -1,3 +1,8 @@
+# Ignore transient CI4 session files stored in public/null
+public/null/*
+
+# Keep directory if needed
+!public/null/.gitkeep
 #-------------------------
 # Operating Specific Junk Files
 #-------------------------

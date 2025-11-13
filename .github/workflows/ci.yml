@@ -29,5 +29,8 @@ jobs:
       - name: Check platform requirements (8.3)
         run: composer check-platform-reqs --no-dev
 
+      - name: Run PHPCS (warnings non-blocking)
+        run: composer run lint:php
+
       - name: Run PHPUnit
         run: vendor/bin/phpunit
