@@ -3,6 +3,10 @@ public/null/*
 
 # Keep directory if needed
 !public/null/.gitkeep
+
+# Ignore runtime files in writable (CI4 will create subfolders at runtime)
+writable/*
+!writable/index.html
 #-------------------------
 # Operating Specific Junk Files
 #-------------------------
