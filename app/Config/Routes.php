@@ -16,11 +16,8 @@ use App\Controllers\Account\Settings as AccountSettings;
 // Home
 $routes->get('/', [Home::class, 'index'], ['as' => 'home.index']);
 
-// Use all default routes EXCEPT login/register (static-analysis friendly)
-$__authService = \call_user_func('service', 'auth');
-if ($__authService) {
-    $__authService->routes($routes, ['except' => ['login', 'register']]);
-}
+// Use all default routes EXCEPT login/register (standard CI4 helper)
+service('auth')->routes($routes, ['except' => ['login', 'register']]);
 
 // Custom auth routes (class-based + named)
 $routes->get('register', [RegisterController::class, 'registerView'], ['as' => 'auth.register.new']);
