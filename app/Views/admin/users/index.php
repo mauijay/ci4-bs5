@@ -27,8 +27,8 @@
                         <small class="text-muted"><?= esc($user->email) ?></small>
                     </td>
 
-                    <td><?= esc($user->getMeta('full_name')) ?></td>
-                    <td><?= esc($user->getMeta('phone')) ?></td>
+                    <td><?= esc($user->full_name ?? '') ?></td>
+                    <td><?= esc($user->phone ?? '') ?></td>
                 </tr>
             <?php endforeach; ?>
 
