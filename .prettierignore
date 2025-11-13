@@ -1,0 +1,11 @@
+# Keep Prettier from touching PHP and vendor/build output
+*.php
+app/**/*.php
+public/**/*.php
+
+# Dependencies and build artifacts
+vendor/
+node_modules/
+public/assets/
+writable/
+builds/

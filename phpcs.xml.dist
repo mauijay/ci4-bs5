@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ruleset name="CI4 Project Standard">
+  <description>PSR-12 base with selected Slevomat tweaks, excluding legacy CI patterns.</description>
+  <rule ref="PSR12"/>
+  <config name="ignore_warnings_on_exit" value="1"/>
+  <file>app</file>
+  <file>public/index.php</file>
+  <exclude-pattern>*/Views/*</exclude-pattern>
+  <!-- Slevomat additions -->
+  <rule ref="SlevomatCodingStandard.Arrays.MultiLineArrayEndBracketPlacement"/>
+  <rule ref="SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion"/>
+  <!-- Downgrade strict type-hinting to warnings to avoid breaking legacy CI patterns -->
+  <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
+    <type>warning</type>
+  </rule>
+  <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
+    <type>warning</type>
+  </rule>
+  <!-- Exclusions: CI4 sometimes uses underscore internal methods -->
+  <exclude name="PSR12.Methods.MethodDeclaration.Underscore"/>
+    <!-- CI4 config files don't follow PSR12 file header docblock order -->
+    <rule ref="PSR12.Files.FileHeader">
+      <type>warning</type>
+    </rule>
+  <!-- Suppress file-level docblock header errors (conflicts with CI4 configs) -->
+  <exclude name="Squiz.Commenting.FileComment"/>
+  <exclude name="SlevomatCodingStandard.Commenting.FileComment"/>
+</ruleset>

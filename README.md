@@ -3,35 +3,34 @@
 project/
 │
 ├── app/
-│   ├── Controllers/
-│   │   ├── Home.php
-│   │   └── Auth (Shield built-in)
-│   ├── Models/
-│   ├── Views/
-│   │   ├── layout.php
-│   │   └── home.php
-│   ├── Filters/
-│   └── Config/
+│ ├── Controllers/
+│ │ ├── Home.php
+│ │ └── Auth (Shield built-in)
+│ ├── Models/
+│ ├── Views/
+│ │ ├── layout.php
+│ │ └── home.php
+│ ├── Filters/
+│ └── Config/
 │
 ├── public/
-│   ├── assets/
-│   │   ├── css/
-│   │   │   └── style.css  ← compiled from scss/style.scss
-│   │   └── js/
-│   │       └── app.js     ← compiled from src/js/app.js
-│   └── index.php
+│ ├── assets/
+│ │ ├── css/
+│ │ │ └── style.css ← compiled from scss/style.scss
+│ │ └── js/
+│ │ └── app.js ← compiled from src/js/app.js
+│ └── index.php
 │
 ├── src/
-│   ├── scss/
-│   │   ├── _variables.scss
-│   │   └── style.scss
-│   └── js/
-│       └── app.js
+│ ├── scss/
+│ │ ├── \_variables.scss
+│ │ └── style.scss
+│ └── js/
+│ └── app.js
 │
 ├── package.json
 ├── webpack.config.js (optional)
 └── composer.json
-
 
 Great question — you caught something important.
 
@@ -61,11 +60,9 @@ Metadata is stored in:
 
 auth_identities
 
-
 With the type:
 
 meta
-
 
 Shield automatically JSON-encodes/decode metadata fields.
 
@@ -77,11 +74,10 @@ $model->save($user);
 
 Retrieve metadata:
 $fullName = $user->getMeta('full_name');
-$phone    = $user->getMeta('phone');
+$phone = $user->getMeta('phone');
 
 Get all metadata:
 $all = $user->getMeta();
-
 
 This is exactly how Shield wants you to store custom user fields.
 
@@ -99,7 +95,6 @@ Features:
 ✔ Shows phone meta
 ✔ Bootstrap table
 ✔ Only accessible by logged-in users (admin area)
-
 
 Great question — and this is something many CI4 developers miss when working with Shield.
 
@@ -140,7 +135,6 @@ setting('Auth.allowRegistration');
 setting('App.siteName');
 setting('MyApp.theme');
 
-
 You can also modify settings at runtime:
 
 setting()->set('App.siteName', 'My New Title');
@@ -161,13 +155,11 @@ setting('Auth.sessionConfig')
 🔑 Default User Group:
 setting('Auth.defaultGroup')
 
-
 And more found in:
 
 app/Config/Auth.php
 app/Config/AuthTokens.php
 settings.php (generated)
-
 
 This means your project can override or add custom Shield-related settings safely.
 
@@ -178,15 +170,12 @@ If you haven’t already, run:
 php spark settings:setup
 php spark migrate
 
-
 This creates:
 
 settings
 settings_keys
 
-
 Two tables that store your values.
-
 
 6. Tie-In With Shield & Auth Settings
 
@@ -197,7 +186,6 @@ Disable public registration from the admin panel:
 // whenever settings change
 setting()->set('Auth.allowRegistration', ! $newSettings['adminRegistrationOnly'])->save();
 
-
 or just check adminRegistrationOnly in your custom RegisterController like we did earlier.
 
 Show maintenance banner or block non-admins based on maintenanceMode:
@@ -205,9 +193,8 @@ Show maintenance banner or block non-admins based on maintenanceMode:
 In a global filter or in your BaseController:
 
 if (app_settings()->maintenanceMode && (! auth()->loggedIn() || ! auth()->user()->can('admin'))) {
-    return redirect()->to('/maintenance'); // or show a simple view
+return redirect()->to('/maintenance'); // or show a simple view
 }
-
 
 PART 6 — Per-User Preferences (Shield Meta)
 
@@ -217,11 +204,9 @@ $user = auth()->user();
 
 $user->setMeta('theme', 'dark')->save();
 
-
 Retrieve:
 
 $theme = $user->getMeta('theme');
-
 
 Combine with global settings:
 
