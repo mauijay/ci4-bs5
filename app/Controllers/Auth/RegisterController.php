@@ -21,7 +21,7 @@ class RegisterController extends ShieldRegisterController
      */
     public function registerView()
     {
-        return (string) \call_user_func('view', 'auth/register', [
+        return view('auth/register', [
             'title' => 'Register',
         ]);
     }

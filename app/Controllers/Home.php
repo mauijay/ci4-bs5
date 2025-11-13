@@ -9,11 +9,14 @@
  */
 
 namespace App\Controllers;
+use Config\Services;
 
 class Home extends BaseController
 {
     public function index(): string
     {
-        return (string) \call_user_func('view', 'home', ['title' => 'Welcome to My CI4 App']);
+        return Services::renderer()
+            ->setVar('title', 'Welcome to My CI4 App')
+            ->render('home');
     }
 }

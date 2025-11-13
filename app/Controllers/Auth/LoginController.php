@@ -24,7 +24,7 @@ class LoginController extends ShieldLoginController
             return redirect()->to(config('Auth')->loginRedirect());
         }
 
-        return (string) \call_user_func('view', 'auth/login', [
+        return view('auth/login', [
             'title' => 'Login',
         ]);
     }
