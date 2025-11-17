@@ -1,0 +1,90 @@
+// ===============================
+// BLOG INDEX & LISTINGS
+// ===============================
+.blog-index {
+  .card {
+    transition: transform .15s ease, box-shadow .15s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 .5rem 1.25rem rgba(0,0,0,.1);
+    }
+  }
+}
+
+// ===============================
+// FEATURED POST
+// ===============================
+.featured-post {
+  .featured-article {
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+}
+
+// ===============================
+// SINGLE POST PAGE
+// ===============================
+.post-hero {
+  h1 {
+    font-size: 2.5rem;
+
+    @include respond(md) {
+      font-size: 3.25rem;
+    }
+  }
+}
+
+.post-featured-image img {
+  margin-top: -2rem;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  width: 100%;
+}
+
+.post-content {
+  h2 {
+    margin-top: 2rem;
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    margin-top: 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  blockquote {
+    border-radius: .5rem;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// ===============================
+// RELATED POSTS
+// ===============================
+.related-posts {
+  .card {
+    border: none;
+    border-radius: .75rem;
+
+    img {
+      border-top-left-radius: .75rem;
+      border-top-right-radius: .75rem;
+    }
+  }
+}
+
+// ===============================
+// FILTERED SEARCH
+// ===============================
+.archive-header {
+  margin-bottom: 3rem;
+
+  span {
+    color: $primary;
+  }
+}
+

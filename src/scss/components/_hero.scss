@@ -1,0 +1,27 @@
+@use "../abstracts" as *;
+
+.hero {
+  background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+  color: #fff;
+
+  padding: 6rem 0;
+
+  @include respond(md) {
+    padding: 8rem 0;
+  }
+
+  h1,
+  p {
+    color: #fff;
+  }
+
+  .btn {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 767px) {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}

@@ -1,0 +1,19 @@
+@use "../abstracts" as *;
+
+.navbar {
+  padding: 1rem 0;
+
+  .nav-link {
+    font-weight: 500;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  .navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: $primary;
+  }
+}

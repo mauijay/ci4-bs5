@@ -1,0 +1,28 @@
+@use "sass:color";
+@use "../abstracts" as *;
+
+footer {
+  background: $dark;
+  color: $light;
+  padding: 2rem 0;
+  font-size: $font-size-sm;
+  .footer-brand {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    svg {
+      height: 1rem;
+    }
+  }
+  a {
+    color: inherit !important;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  hr {
+    border-color: color.adjust($white, $alpha: -0.9);
+  }
+}

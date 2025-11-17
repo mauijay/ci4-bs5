@@ -1,0 +1,26 @@
+// Requires: @import "abstracts/mixins";
+@use "../abstracts" as *;
+// Requires: @import "abstracts/mixins";
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+// 1-column on mobile, 2 on md, 3 on lg
+.grid-item {
+  flex: 0 0 100%;
+
+  @include respond(md) {
+    flex: 0 0 calc(50% - 1.5rem / 2);
+  }
+
+  @include respond(lg) {
+    flex: 0 0 calc(33.333% - 1rem);
+  }
+}
+
+// Optional modifier: tighter gaps
+.grid--tight {
+  gap: 1rem;
+}

@@ -1,0 +1,19 @@
+@use "../abstracts" as *;
+
+.blog-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12);
+  }
+
+  img {
+    object-fit: cover;
+    height: 180px;
+
+    @include respond(lg) {
+      height: 220px;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+@use "../abstracts" as *;
+
+.author-header {
+  img {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+
+  p {
+    font-size: 1rem;
+  }
+}

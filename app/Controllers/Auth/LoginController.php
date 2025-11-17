@@ -8,6 +8,7 @@
  * @link       https://github.com/mauijay/ci4-bs5
  */
 
+
 namespace App\Controllers\Auth;
 
 use CodeIgniter\Shield\Controllers\LoginController as ShieldLogin;
@@ -86,7 +87,7 @@ class LoginController extends ShieldLogin
         return redirect()->to(config('Auth')->logoutRedirect())
             ->with('message', lang('Auth.logoutSuccess'));
     }
-    
+
     public function logout(): RedirectResponse
     {
         auth()->logout();

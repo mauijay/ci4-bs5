@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Register controller (extends Shield)
  *

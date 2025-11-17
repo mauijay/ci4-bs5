@@ -1,0 +1,133 @@
+@use "theme" as *;
+// Bootstrap breakpoint map
+$breakpoints: (
+  "xs": 0,
+  "sm": 576px,
+  "md": 768px,
+  "lg": 992px,
+  "xl": 1200px,
+  "xxl": 1400px,
+);
+
+// Usage: @include respond(md) { ... }
+@mixin respond($break) {
+  @media (min-width: map-get($breakpoints, $break)) {
+    @content;
+  }
+}
+
+// Simple flexbox shortcut
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Usage: @include spacing(p, 20px);  -> padding: 20px;
+//        @include spacing(mx, 1rem); -> margin-left/right
+
+@mixin spacing($property, $size) {
+  #{$property}: $size;
+}
+
+// Lightweight button variant mixin using CSS variables (no Bootstrap deps)
+// Signature mirrors Bootstrap's for easy refactor
+@mixin btn-variant(
+  $background,
+  $border,
+  $color: null,
+  $hover-background: null,
+  $hover-border: null,
+  $hover-color: null,
+  $active-background: null,
+  $active-border: null,
+  $active-color: null,
+  $disabled-background: null,
+  $disabled-border: null,
+  $disabled-color: null
+) {
+  $auto-dark: $gray-900 !default;
+  $auto-light: $white !default;
+
+  $computed-color: if(
+    $color == null,
+    if(lightness($background) > 60, $auto-dark, $auto-light),
+    $color
+  );
+
+  $hover-bg: if(
+    $hover-background == null,
+    if(
+      lightness($background) > 60,
+      darken($background, 7%),
+      lighten($background, 7%)
+    ),
+    $hover-background
+  );
+  $hover-br: if(
+    $hover-border == null,
+    if(lightness($border) > 60, darken($border, 7%), lighten($border, 7%)),
+    $hover-border
+  );
+  $hover-col: if(
+    $hover-color == null,
+    if(lightness($hover-bg) > 60, $auto-dark, $auto-light),
+    $hover-color
+  );
+
+  $active-bg: if(
+    $active-background == null,
+    if(
+      lightness($background) > 60,
+      darken($background, 10%),
+      lighten($background, 10%)
+    ),
+    $active-background
+  );
+  $active-br: if(
+    $active-border == null,
+    if(lightness($border) > 60, darken($border, 10%), lighten($border, 10%)),
+    $active-border
+  );
+  $active-col: if(
+    $active-color == null,
+    if(lightness($active-bg) > 60, $auto-dark, $auto-light),
+    $active-color
+  );
+
+  $disabled-bg: if(
+    $disabled-background == null,
+    $background,
+    $disabled-background
+  );
+  $disabled-br: if($disabled-border == null, $border, $disabled-border);
+  $disabled-col: if(
+    $disabled-color == null,
+    if(lightness($disabled-bg) > 60, $auto-dark, $auto-light),
+    $disabled-color
+  );
+
+  --bs-btn-color: #{$computed-color};
+  --bs-btn-bg: #{$background};
+  --bs-btn-border-color: #{$border};
+  --bs-btn-hover-color: #{$hover-col};
+  --bs-btn-hover-bg: #{$hover-bg};
+  --bs-btn-hover-border-color: #{$hover-br};
+  --bs-btn-active-color: #{$active-col};
+  --bs-btn-active-bg: #{$active-bg};
+  --bs-btn-active-border-color: #{$active-br};
+  --bs-btn-disabled-color: #{$disabled-col};
+  --bs-btn-disabled-bg: #{$disabled-bg};
+  --bs-btn-disabled-border-color: #{$disabled-br};
+}

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Base controller for application controllers.
+ */
 
 namespace App\Controllers;
 
@@ -45,8 +48,11 @@ abstract class BaseController extends Controller
 
     /**
      */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger): void
-    {
+    public function initController(
+        RequestInterface $request,
+        ResponseInterface $response,
+        LoggerInterface $logger
+    ): void {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 

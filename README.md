@@ -211,3 +211,36 @@ $theme = $user->getMeta('theme');
 Combine with global settings:
 
 $theme = $userTheme ?? app_settings()->theme;
+
+## API Health Check
+
+- Route name: `api.v1.health.index`
+- Method/Path: `GET /api/v1/health`
+- Auth: Protected by the `token` filter (CodeIgniter Shield). Provide a valid Bearer token.
+
+Example request:
+
+```bash
+curl -i \
+  -H "Authorization: Bearer <your_token_here>" \
+  http://localhost:8080/api/v1/health
+```
+
+Typical response:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=UTF-8
+
+{"status":"ok","timestamp":"2025-01-01T12:34:56+00:00"}
+```
+
+Reverse routing:
+
+- Controller/Service: `url_to('api.v1.health.index')`
+- View helper: `site_url(route_to('api.v1.health.index'))`
+
+Token notes:
+
+- This endpoint requires a Shield token via `Authorization: Bearer <token>`.
+- Generate/manage tokens using your existing Shield token flow for this project. Refer to CodeIgniter Shield documentation for Personal Access Tokens.

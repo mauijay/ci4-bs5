@@ -14,6 +14,6 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        return view('home', ['title' => 'Welcome to My CI4 App']);
+        return view('home', ['title' => 'Welcome Home in My CI4 BS5 App']);
     }
 }

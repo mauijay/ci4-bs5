@@ -1,0 +1,9 @@
+@use "../abstracts" as *;
+
+.offcanvas {
+  .nav-link {
+    font-size: 1.1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+  }
+}

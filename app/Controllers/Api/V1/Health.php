@@ -1,4 +1,5 @@
 <?php
+
 /**
  * API v1 Health controller
  *
@@ -10,14 +11,11 @@
 
 namespace App\Controllers\Api\V1;
 
-use App\Controllers\BaseController;
-use CodeIgniter\API\ResponseTrait;
+use App\Controllers\Api\ApiBaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Health extends BaseController
+class Health extends ApiBaseController
 {
-    use ResponseTrait;
-
     public function index(): ResponseInterface
     {
         $payload = [

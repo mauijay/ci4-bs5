@@ -5,6 +5,9 @@
   <config name="ignore_warnings_on_exit" value="1"/>
   <file>app</file>
   <file>public/index.php</file>
+  <!-- Exclude known side-effect bootstrap/config files from side-effect sniff -->
+  <exclude-pattern>app/Config/Boot/*</exclude-pattern>
+  <exclude-pattern>public/index.php</exclude-pattern>
   <exclude-pattern>*/Views/*</exclude-pattern>
   <!-- Slevomat additions -->
   <rule ref="SlevomatCodingStandard.Arrays.MultiLineArrayEndBracketPlacement"/>

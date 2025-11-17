@@ -1,0 +1,23 @@
+@use "../abstracts" as *;
+
+.pagination {
+  .page-link {
+    border-radius: 50px;
+    padding: 0.6rem 1rem;
+    font-weight: 500;
+    margin: 0 0.25rem;
+    border: none;
+    color: $dark;
+
+    &:hover {
+      background: rgba($primary, 0.15);
+      color: $primary;
+    }
+  }
+
+  .active .page-link {
+    background: $primary;
+    color: #fff;
+    border-radius: 50px;
+  }
+}

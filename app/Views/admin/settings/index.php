@@ -18,12 +18,30 @@
                class="form-control">
     </div>
 
+    <div class="col-md-6">
+        <label class="form-label">Support Email</label>
+        <input type="email" name="supportEmail"
+               value="<?= esc($settings->supportEmail) ?>"
+               class="form-control">
+    </div>
+
     <div class="col-md-3">
         <label class="form-label">Default Theme</label>
         <select name="theme" class="form-select">
             <?php foreach ($settings->availableThemes as $theme): ?>
                 <option value="<?= $theme ?>" <?= $settings->theme === $theme ? 'selected' : '' ?>>
                     <?= ucfirst($theme) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Default Locale</label>
+        <select name="defaultLocale" class="form-select">
+            <?php foreach ($settings->availableLocales as $locale): ?>
+                <option value="<?= $locale ?>" <?= $settings->defaultLocale === $locale ? 'selected' : '' ?>>
+                    <?= strtoupper($locale) ?>
                 </option>
             <?php endforeach; ?>
         </select>

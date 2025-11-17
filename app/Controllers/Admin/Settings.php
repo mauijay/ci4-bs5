@@ -18,12 +18,16 @@ class Settings extends BaseController
     {
         $data = $this->request->getPost([
             'siteName',
+            'supportEmail',
             'theme',
+            'defaultLocale',
         ]);
 
         $newSettings = [
-            'siteName'  => $data['siteName'] ?? 'My CI4 App',
-            'theme'     => $data['theme'] ?? 'light',
+            'siteName'      => $data['siteName'] ?? 'My CI4 App',
+            'supportEmail'  => $data['supportEmail'] ?? 'support@example.com',
+            'theme'         => $data['theme'] ?? 'light',
+            'defaultLocale' => $data['defaultLocale'] ?? 'en',
             'maintenanceMode'         => $this->request->getPost('maintenanceMode') !== null,
             'adminRegistrationOnly'   => $this->request->getPost('adminRegistrationOnly') !== null,
             'allowUserThemePreference' => $this->request->getPost('allowUserThemePreference') !== null,

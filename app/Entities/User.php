@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User entity (extends Shield User)
  *

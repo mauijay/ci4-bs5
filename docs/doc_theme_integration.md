@@ -35,19 +35,18 @@ Bootstrap 5.x (via SCSS build)
 Recommended structure:
 
 public/
-    themes/
-        light/
-            css/style.css
-        dark/
-            css/style.css
+themes/
+light/
+css/style.css
+dark/
+css/style.css
 
 resources/
-    themes/
-        light/
-            scss/style.scss
-        dark/
-            scss/style.scss
-
+themes/
+light/
+scss/style.scss
+dark/
+scss/style.scss
 
 Your SCSS compiles into public/themes/....
 
@@ -64,8 +63,8 @@ npm install bootstrap sass --save-dev
 In package.json:
 
 "scripts": {
-    "build": "sass resources/themes:public/themes --no-source-map --style=compressed",
-    "watch": "sass resources/themes:public/themes --watch --style=expanded"
+"build": "sass resources/themes:public/themes --no-source-map --style=compressed",
+"watch": "sass resources/themes:public/themes --watch --style=expanded"
 }
 
 2.3 Example SCSS file
@@ -78,10 +77,9 @@ $body-bg: #ffffff;
 $body-color: #212529;
 
 body {
-    background-color: $body-bg;
-    color: $body-color;
+background-color: $body-bg;
+color: $body-color;
 }
-
 
 resources/themes/dark/scss/style.scss
 
@@ -91,8 +89,8 @@ $body-bg: #111;
 $body-color: #ddd;
 
 body {
-    background-color: $body-bg;
-    color: $body-color;
+background-color: $body-bg;
+color: $body-color;
 }
 
 Build the CSS:
@@ -103,9 +101,8 @@ npm run build
 Your existing AppSettings already includes:
 
 public string $theme = 'light';
-public array  $availableThemes = ['light', 'dark'];
-public bool   $allowUserThemePreference = true;
-
+public array $availableThemes = ['light', 'dark'];
+public bool $allowUserThemePreference = true;
 
 Themes are now fully pluggable.
 
@@ -200,7 +197,6 @@ In app/Views/layouts/main.php:
 
 <link rel="stylesheet" href="<?= theme_url('css/style.css') ?>">
 
-
 This line automatically switches CSS files depending on:
 
 Global theme
@@ -279,6 +275,7 @@ app/Views/profile/theme.php
     </select>
 
     <button class="btn btn-primary mt-3">Save</button>
+
 </form>
 
 🎛 9. Dashboard Banner (Optional)
@@ -288,6 +285,7 @@ Show current theme in the admin dashboard:
 <p>Current theme: <strong><?= ThemeService::current() ?></strong></p>
 
 🧪 10. Testing
+
 1. Admin changes global theme
 
 → All users switch theme unless they have a preference.
@@ -301,10 +299,10 @@ Show current theme in the admin dashboard:
 → Fallback to light.
 
 4. SCSS changes
-npm run build
+   npm run build
 
 5. Live watching
-npm run watch
+   npm run watch
 
 🏁 Final Result
 
@@ -320,3 +318,49 @@ You now have a production-grade theme system with:
 ✔ Bootstrap 5 SCSS support
 
 This is the cleanest and most scalable way to manage themes inside a long-term CI4 application.
+
+---
+
+Sass Modules Migration (Dart Sass 3 Ready)
+
+We migrated the project SCSS to Sass modules to be compatible with Dart Sass 3.
+
+- Project modules: Components and utilities import project tokens via `@use "../abstracts" as *;`.
+- Bootstrap integration: Root entry uses `@use "bootstrap/scss/bootstrap" with (...)` to pass overrides.
+- No global tokens: We removed global `@import` of Bootstrap `functions/variables/maps/mixins`.
+- Custom mixins: A lightweight `btn-variant` mixin was added to avoid Bootstrap's internal mixins.
+
+Key files
+
+- `src/scss/abstracts/_theme.scss`: Canonical theme tokens; now uses `@use "sass:color"` and `color.mix(...)`.
+- `src/scss/abstracts/_mixins.scss`: Project mixins, including `respond()` and `btn-variant(...)`.
+- `src/scss/style.scss`: Root entry; loads `abstracts` via `@use`, Bootstrap via `@use ... with (...)`, and project partials via `@use ... as *`.
+
+New button mixin (project)
+
+Use the project `btn-variant` mixin to create variants without Bootstrap internals:
+
+        // In a component file
+        @use "../abstracts" as *;
+
+        .btn-brand {
+            @include btn-variant($primary, $primary);
+        }
+
+Adding new components
+
+1. Create `src/scss/components/_your-comp.scss`:
+
+   @use "../abstracts" as \*;
+
+   .your-comp { color: inherit; }
+
+1. Register in `src/scss/style.scss`:
+
+   @use "components/your-comp" as \*;
+
+Notes and warnings
+
+- Bootstrap’s own SCSS still uses some deprecated APIs; warnings may appear until Bootstrap updates.
+- Avoid cross-module `@extend` (e.g., `.text-reset`); prefer explicit declarations like `color: inherit;`.
+- Prefer `sass:color` functions (`color.mix`, `color.adjust`) over deprecated global `mix()`/`fade-out()`.
