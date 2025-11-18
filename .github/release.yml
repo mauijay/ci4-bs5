@@ -1,0 +1,60 @@
+changelog:
+  exclude:
+    labels:
+      - skip-changelog
+      - ci
+      - wip
+    authors:
+      - dependabot
+      - github-actions[bot]
+  categories:
+    - title: Breaking Changes
+      labels:
+        - breaking-change
+    - title: UI
+      labels:
+        - ui
+        - ux
+    - title: Layout
+      labels:
+        - layout
+    - title: Routes/Auth
+      labels:
+        - routes
+        - auth
+    - title: Security/Filters
+      labels:
+        - security
+        - filters
+    - title: Admin UX
+      labels:
+        - admin
+        - settings
+    - title: Blog
+      labels:
+        - blog
+    - title: Build/Tooling
+      labels:
+        - build
+        - tooling
+    - title: Tests
+      labels:
+        - tests
+        - test
+    - title: Documentation
+      labels:
+        - docs
+        - documentation
+    - title: Dependencies
+      labels:
+        - dependencies
+        - deps
+    - title: Maintenance
+      labels:
+        - chore
+        - maintenance
+  change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+  template: |
+    ## Changes
+
+    $CHANGES
