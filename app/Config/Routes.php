@@ -41,6 +41,7 @@ $routes->group('admin', ['filter' => 'group:admin'], static function ($routes): 
     $routes->get('users', [Users::class, 'index'], ['as' => 'admin.users.index']);
     $routes->get('settings', [AdminSettings::class, 'index'], ['as' => 'admin.settings.index']);
     $routes->post('settings', [AdminSettings::class, 'update'], ['as' => 'admin.settings.update']);
+    $routes->post('settings/site-online', [AdminSettings::class, 'siteOnline'], ['as' => 'admin.settings.siteOnline']);
 });
 
 // Account group – session-protected

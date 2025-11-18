@@ -8,16 +8,16 @@
       <meta name="title" content="<?= esc($title ?? app_settings()->siteName) ?>">
       <meta name="description" content="Your page or post description goes here. 155–160 chars is ideal.">
       <!-- Canonical -->
-      <link rel="canonical" href="https://www.example.com/current-page">
+      <link rel="canonical" href="<?= current_url() ?>">
       <!-- Open Graph / Facebook -->
       <meta property="og:type" content="website">
-      <meta property="og:url" content="https://www.example.com/current-page">
+      <meta property="og:url" content="<?= current_url() ?> ">
       <meta property="og:title" content="<?= esc($title ?? app_settings()->siteName) ?>">
       <meta property="og:description" content="Your page/post summary.">
       <meta property="og:image" content="https://www.example.com/images/og-image.jpg">
       <!-- Twitter -->
       <meta property="twitter:card" content="summary_large_image">
-      <meta property="twitter:url" content="https://www.example.com/current-page">
+      <meta property="twitter:url" content="<?= current_url() ?>">
       <meta property="twitter:title" content="<?= esc($title ?? app_settings()->siteName) ?>">
       <meta property="twitter:description" content="Your page/post summary.">
       <meta property="twitter:image" content="https://www.example.com/images/og-image.jpg">
@@ -49,7 +49,7 @@
         <div class="collapse navbar-collapse d-none d-lg-block">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item"><a href="#hero" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="<?= site_url(route_to('blog.index')) ?>" class="nav-link">news</a></li>
+            <li class="nav-item"><a href="<?= site_url(route_to('blog.index')) ?>" class="nav-link">News</a></li>
             <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
             <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
             <?php if (auth()->loggedIn()): ?>
@@ -58,7 +58,19 @@
               </li>
             <?php endif; ?>
           </ul>
-          <ul class="navbar-nav ms-auto">
+          <ul class="navbar-nav ms-auto align-items-center">
+                  <?php if (auth()->loggedIn() && function_exists('url_is') && url_is('admin*')): ?>
+                    <li class="nav-item me-3">
+                      <form action="<?= site_url(route_to('admin.settings.siteOnline')) ?>" method="post" class="d-flex align-items-center">
+                        <?= csrf_field() ?>
+                        <input type="hidden" name="siteOnline" value="0">
+                        <div class="form-check form-switch m-0">
+                          <input class="form-check-input" type="checkbox" name="siteOnline" value="1" id="siteOnlineSwitch" <?= app_settings()->siteOnline ? 'checked' : '' ?> onchange="this.form.submit()">
+                          <label class="form-check-label ms-2" for="siteOnlineSwitch">Public</label>
+                        </div>
+                      </form>
+                    </li>
+                  <?php endif; ?>
                   <?php if (! auth()->loggedIn()): ?>
                       <li class="nav-item">
                           <a class="nav-link" href="<?= site_url(route_to('auth.login.new')) ?>">login icon</a>

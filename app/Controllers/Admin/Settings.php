@@ -49,4 +49,20 @@ class Settings extends BaseController
 
         return redirect()->back()->with('message', 'Settings updated.');
     }
+
+    /**
+     * Toggle siteOnline without touching other settings.
+     */
+    public function siteOnline()
+    {
+        $on = $this->request->getPost('siteOnline') === '1' || $this->request->getPost('siteOnline') === 'on';
+
+        /** @var \CodeIgniter\Settings\Settings $settingsMgr */
+        $settingsMgr = setting();
+        $settingsMgr->set('AppSettings.siteOnline', $on);
+
+        \App\Libraries\AppSettingsService::refresh();
+
+        return redirect()->back()->with('message', 'Site availability updated.');
+    }
 }
