@@ -244,3 +244,13 @@ Token notes:
 
 - This endpoint requires a Shield token via `Authorization: Bearer <token>`.
 - Generate/manage tokens using your existing Shield token flow for this project. Refer to CodeIgniter Shield documentation for Personal Access Tokens.
+
+## Release Notes & Labels
+
+This repository uses `.github/release.yml` to auto-generate release notes grouped by labels.
+
+See `docs/RELEASING.md` for:
+
+- Recommended label set (`.github/labels.yml`).
+- A GitHub CLI snippet to sync labels.
+- Steps to draft and publish a release using generated notes.
