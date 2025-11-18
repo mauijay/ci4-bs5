@@ -7,13 +7,15 @@
     "watch": "sass --watch src/scss/style.scss:public/assets/css/style.css --load-path=node_modules",
     "build:js": "esbuild src/js/app.js --bundle --outfile=public/assets/js/app.bundle.js --format=iife --minify --sourcemap",
     "dev:js": "esbuild src/js/app.js --bundle --outfile=public/assets/js/app.bundle.js --format=iife --sourcemap --watch",
-    "build:assets": "npm run build && npm run build:js"
+    "build:assets": "npm run build && npm run build:js",
+    "dev:assets": "npm-run-all -p watch dev:js"
   },
   "dependencies": {
     "bootstrap": "^5.3.3"
   },
   "devDependencies": {
     "sass": "^1.75.0",
-    "esbuild": "^0.23.0"
+    "esbuild": "^0.23.0",
+    "npm-run-all": "^4.1.5"
   }
 }

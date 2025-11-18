@@ -49,17 +49,10 @@
         <div class="collapse navbar-collapse d-none d-lg-block">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item"><a href="#hero" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
+            <li class="nav-item"><a href="<?= site_url(route_to('blog.index')) ?>" class="nav-link">news</a></li>
             <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
             <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
             <?php if (auth()->loggedIn()): ?>
-              <li class="nav-item">
-                  <a class="nav-link" href="<?= site_url(route_to('account.settings.index')) ?>">My Settings</a>
-              </li>
-              <hr>
-              <li class="nav-item">
-                  <a class="nav-link" href="<?= site_url(route_to('admin.dashboard.index')) ?>">Admin</a>
-              </li>
               <li class="nav-item">
                   <a class="nav-link" href="<?= site_url(route_to('admin.users.index')) ?>">Users</a>
               </li>
@@ -68,24 +61,24 @@
           <ul class="navbar-nav ms-auto">
                   <?php if (! auth()->loggedIn()): ?>
                       <li class="nav-item">
-                          <a class="nav-link" href="<?= site_url(route_to('auth.login.new')) ?>">need a login icon</a>
+                          <a class="nav-link" href="<?= site_url(route_to('auth.login.new')) ?>">login icon</a>
                       </li>
                   <?php else: ?>
                       <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          need an avatar icon here...
+                          avatar icon here...
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <li class="nav-item">
+                          <li class="nav-item text-center">
                               <span class="navbar-text me-2">
                                   <?= esc(auth()->user()->username ?? auth()->user()->email) ?>
                               </span>
                           </li>
                           <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="<?= site_url(route_to('account.settings.index')) ?>">My Account</a></li>
+                          <li><a class="dropdown-item" href="<?= site_url(route_to('admin.dashboard.index')) ?>">Admin</a></li>
                           <li><hr class="dropdown-divider"></li>
-                          <li><a class="btn btn-sm btn-outline-light" href="<?= site_url('logout') ?>">Logout</a></li>
+                          <li><a class="dropdown-item text-danger" href="<?= site_url('logout') ?>">Logout</a></li>
                         </ul>
                       </li>
                   <?php endif; ?>
@@ -157,8 +150,11 @@
           }
         ]
       }
-      </script>
-    <?= $this->renderSection('content') ?>
+    </script>
+    <main class="py-5">
+      <!-- MAIN CONTENT -->
+      <?= $this->renderSection('content') ?>
+    </main>
     <!-- CTA -->
     <section class="cta-section py-5 text-center">
       <div class="container">
