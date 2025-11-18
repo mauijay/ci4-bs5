@@ -142,8 +142,8 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-      'auth-rates' => ['before' => ['login*', 'register', 'auth/*']],
-      'tokens' => ['before' => ['api/v1*']],
-      'session' => ['before' => ['admin*','api/0*','user-account*']]
-    ];
+                // Rate limit auth endpoints
+                'auth-rates' => ['before' => ['login*', 'register', 'auth/*']],
+                // Rely on route-specific filters for admin (group:admin), account (session), and API (token)
+        ];
 }
