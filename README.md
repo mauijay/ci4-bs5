@@ -1,3 +1,5 @@
+# CodeIgniter 4 + Bootstrap 5 Starter
+
 [![CI (PHP 8.3)](https://github.com/mauijay/ci4-bs5/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mauijay/ci4-bs5/actions/workflows/ci.yml)
 
 project/
@@ -177,7 +179,7 @@ settings_keys
 
 Two tables that store your values.
 
-6. Tie-In With Shield & Auth Settings
+## Tie-In With Shield & Auth Settings
 
 Some examples of how you can now wire everything together:
 
