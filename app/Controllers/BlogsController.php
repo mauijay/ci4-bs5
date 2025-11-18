@@ -7,12 +7,16 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class BlogsController extends BaseController
 {
-    public function index()
+    /**
+     */
+    public function index(): string
     {
         return view('blogs/index', ['title' => 'Blog News']);
     }
 
-    public function show(string $slug)
+    /**
+     */
+    public function show(string $slug): string
     {
         $title = ucwords(str_replace('-', ' ', $slug));
 

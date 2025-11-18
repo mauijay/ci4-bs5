@@ -20,6 +20,11 @@ $routes->get('/', [Home::class, 'index'], ['as' => 'home.index']);
 $routes->get('blogs', [BlogsController::class, 'index'], ['as' => 'blog.index']);
 $routes->get('blogs/(:segment)', [BlogsController::class, 'show'], ['as' => 'blog.show']);
 
+// Site offline route (used by OnlineCheckFilter exceptions)
+$routes->get('site-offline', static function (): string {
+    return view('errors/html/offline');
+}, ['as' => 'site.offline']);
+
 // Use all default routes EXCEPT login/register (standard CI4 helper)
 service('auth')->routes($routes, ['except' => ['login', 'register']]);
 

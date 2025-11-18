@@ -12,12 +12,25 @@ use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\PageCache;
 use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
+use App\Filters\OnlineCheckFilter;
 
 class Filters extends BaseFilters
 {
     /**
      * Configures aliases for Filter classes to
      * make reading things nicer and simpler.
+     *
+     * The filter $aliases that Shield provides are automatically added for you by the Registrar class located at src/Config/Registrar.php. So you don't need to add in * your app/Config/Filters.php.
+     *
+     *  'session'     => SessionAuth::class,
+     *  'tokens'      => TokenAuth::class,
+     *  'hmac'        => HmacAuth::class,
+     *  'chain'       => ChainAuth::class,
+     *  'auth-rates'  => AuthRates::class,
+     *  'group'       => GroupFilter::class,
+     *  'permission'  => PermissionFilter::class,
+     *  'force-reset' => ForcePasswordResetFilter::class,
+     *  'jwt'         => JWTAuth::class,
      *
      * @var array<string, class-string|list<class-string>>
      *
@@ -34,12 +47,13 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'onlinefilter'  => OnlineCheckFilter::class,
         // CodeIgniter Shield filters
-        'session'       => \CodeIgniter\Shield\Filters\SessionAuth::class,
-        'token'         => \CodeIgniter\Shield\Filters\TokenAuth::class,
-        'chain'         => \CodeIgniter\Shield\Filters\ChainAuth::class,
-        'group'         => \CodeIgniter\Shield\Filters\GroupFilter::class,
-        'permission'    => \CodeIgniter\Shield\Filters\PermissionFilter::class,
+        // 'session'       => \CodeIgniter\Shield\Filters\SessionAuth::class,
+        // 'token'         => \CodeIgniter\Shield\Filters\TokenAuth::class,
+        // 'chain'         => \CodeIgniter\Shield\Filters\ChainAuth::class,
+        // 'group'         => \CodeIgniter\Shield\Filters\GroupFilter::class,
+        // 'permission'    => \CodeIgniter\Shield\Filters\PermissionFilter::class,
     ];
 
     /**
@@ -81,6 +95,17 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
+            // Allow access to auth, API, and assets while site is offline
+            'onlinefilter' => [
+                'except' => [
+                    'site-offline',
+                    'login*',
+                    'register*',
+                    'auth/*',
+                    'assets/*',
+                    'api/*',
+                ],
+            ],
             // Require login only on specific routes via route filters
         ],
         'after' => [
@@ -102,7 +127,10 @@ class Filters extends BaseFilters
      *
      * @var array<string, list<string>>
      */
-    public array $methods = [];
+    public array $methods = [
+      'POST' => ['invalidchars', 'csrf'],
+      'GET'  => ['cors'],
+    ];
 
     /**
      * List of filter aliases that should run on any
@@ -113,5 +141,9 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+      'auth-rates' => ['before' => ['login*', 'register', 'auth/*']],
+      'tokens' => ['before' => ['api/v1*']],
+      'session' => ['before' => ['admin*','api/0*','user-account*']]
+    ];
 }
