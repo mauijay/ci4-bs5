@@ -68,19 +68,25 @@
           <ul class="navbar-nav ms-auto">
                   <?php if (! auth()->loggedIn()): ?>
                       <li class="nav-item">
-                          <a class="nav-link" href="<?= site_url(route_to('auth.login.new')) ?>">Login</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="<?= site_url(route_to('auth.register.new')) ?>">Register</a>
+                          <a class="nav-link" href="<?= site_url(route_to('auth.login.new')) ?>">need a login icon</a>
                       </li>
                   <?php else: ?>
-                      <li class="nav-item">
-                          <span class="navbar-text me-2">
-                              <?= esc(auth()->user()->username ?? auth()->user()->email) ?>
-                          </span>
-                      </li>
-                      <li class="nav-item">
-                          <a class="btn btn-sm btn-outline-light" href="<?= site_url('logout') ?>">Logout</a>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          need an avatar icon here...
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li class="nav-item">
+                              <span class="navbar-text me-2">
+                                  <?= esc(auth()->user()->username ?? auth()->user()->email) ?>
+                              </span>
+                          </li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="#">Action</a></li>
+                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="btn btn-sm btn-outline-light" href="<?= site_url('logout') ?>">Logout</a></li>
+                        </ul>
                       </li>
                   <?php endif; ?>
               </ul>
@@ -171,7 +177,6 @@
         <p class="mb-0">&copy; 2025 My Bootstrap SCSS Website.</p>
       </div>
     </footer>
-    <script src="/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/app.js"></script>
+    <script src="<?= base_url('assets/js/app.bundle.js') ?>" defer></script>
   </body>
 </html>

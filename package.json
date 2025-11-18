@@ -4,12 +4,16 @@
   "scripts": {
     "dev": "sass src/scss/style.scss public/assets/css/style.css --source-map --load-path=node_modules",
     "build": "sass src/scss/style.scss public/assets/css/style.css --style=compressed --load-path=node_modules",
-    "watch": "sass --watch src/scss/style.scss:public/assets/css/style.css --load-path=node_modules"
+    "watch": "sass --watch src/scss/style.scss:public/assets/css/style.css --load-path=node_modules",
+    "build:js": "esbuild src/js/app.js --bundle --outfile=public/assets/js/app.bundle.js --format=iife --minify --sourcemap",
+    "dev:js": "esbuild src/js/app.js --bundle --outfile=public/assets/js/app.bundle.js --format=iife --sourcemap --watch",
+    "build:assets": "npm run build && npm run build:js"
   },
   "dependencies": {
     "bootstrap": "^5.3.3"
   },
   "devDependencies": {
-    "sass": "^1.75.0"
+    "sass": "^1.75.0",
+    "esbuild": "^0.23.0"
   }
 }
