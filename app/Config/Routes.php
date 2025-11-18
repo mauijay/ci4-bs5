@@ -6,6 +6,7 @@ use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\RegisterController;
 use App\Controllers\Admin\Dashboard;
 use App\Controllers\Admin\Users;
+use App\Controllers\Admin\Profile as AdminProfile;
 use App\Controllers\Admin\Settings as AdminSettings;
 use App\Controllers\Account\Settings as AccountSettings;
 use App\Controllers\Api\V1\Health;
@@ -39,6 +40,7 @@ $routes->post('login', [LoginController::class, 'loginAction'], ['as' => 'auth.l
 $routes->group('admin', ['filter' => 'permission:admin.access'], static function ($routes): void {
     $routes->get('/', [Dashboard::class, 'index'], ['as' => 'admin.dashboard.index']);
     $routes->get('users', [Users::class, 'index'], ['as' => 'admin.users.index']);
+    $routes->get('profile', [AdminProfile::class, 'index'], ['as' => 'admin.profile.index']);
     $routes->get('settings', [AdminSettings::class, 'index'], ['as' => 'admin.settings.index']);
     $routes->post('settings', [AdminSettings::class, 'update'], ['as' => 'admin.settings.update']);
     $routes->post('settings/site-online', [AdminSettings::class, 'siteOnline'], ['as' => 'admin.settings.siteOnline']);
