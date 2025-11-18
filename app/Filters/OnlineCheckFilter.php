@@ -14,7 +14,7 @@ class OnlineCheckFilter implements FilterInterface
      *
      * @param array<string>|null $arguments
      */
-    public function before(RequestInterface $request, ?array $arguments = null): mixed
+    public function before(RequestInterface $request, $arguments = null)
     {
         // Site online? Allow through.
         if (setting('AppSettings.siteOnline') !== false) {
@@ -62,7 +62,7 @@ class OnlineCheckFilter implements FilterInterface
      *
      * @param array<string>|null $arguments
      */
-    public function after(RequestInterface $request, ResponseInterface $response, ?array $arguments = null): mixed
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
         return null;
     }
