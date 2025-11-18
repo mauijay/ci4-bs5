@@ -28,8 +28,13 @@
   <?php
       $settings = app_settings();
       $theme = $settings->theme;
+      $currentUser = null;
+      $primaryGroup = null;
       if ($settings->allowUserThemePreference && auth()->loggedIn()) {
           $user = auth()->user();
+        $currentUser = $user;
+        $groups = method_exists($user, 'getGroups') ? (array) $user->getGroups() : [];
+        $primaryGroup = $groups[0] ?? null;
           if (! empty($user->theme)) {
               $theme = $user->theme;
           }
@@ -77,8 +82,11 @@
                       </li>
                   <?php else: ?>
                       <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          avatar icon here...
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <span>avatar icon here...</span>
+                          <?php if (! empty($primaryGroup)): ?>
+                            <span class="badge bg-secondary text-uppercase ms-2"><?= esc($primaryGroup) ?></span>
+                          <?php endif; ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <li class="nav-item text-center">
