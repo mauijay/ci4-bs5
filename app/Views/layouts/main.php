@@ -24,6 +24,7 @@
       <!-- Favicon -->
       <link rel="icon" type="image/png" href="/favicon.png">
       <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
+      <?= $this->renderSection('head_js') ?>
   </head>
   <?php
       $settings     = app_settings();
@@ -38,6 +39,21 @@
           $canAdminAccess = $isLoggedIn && (
             ($user && method_exists($user, 'can') && $user->can('admin.access'))
           );
+      // Badge color classes per primary group
+      $groupBadgeClasses = [
+        'superadmin' => 'bg-danger',
+        'admin'      => 'bg-primary',
+        'developer'  => 'bg-warning text-dark',
+        'beta'       => 'bg-info text-dark',
+        'user'       => 'bg-secondary',
+      ];
+      $badgeClass = 'bg-secondary';
+      if (! empty($primaryGroup)) {
+        $key = strtolower($primaryGroup);
+        if (isset($groupBadgeClasses[$key])) {
+          $badgeClass = $groupBadgeClasses[$key];
+        }
+      }
   ?>
   <body class="theme-<?= esc($theme) ?>">
     <!-- NAV + OFF-CANVAS -->
@@ -72,13 +88,13 @@
                   <?php endif; ?>
                   <?php if (! $isLoggedIn): ?>
                       <li class="nav-item">
-                          <a class="nav-link" href="<?= site_url(route_to('auth.login.new')) ?>">login icon</a>
+                          <a class="nav-link" href="<?= site_url(route_to('login')) ?>">login icon</a>
                       </li>
                   <?php else: ?>
                       <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           <?php if (! empty($primaryGroup)): ?>
-                            <span class="badge bg-secondary text-uppercase ms-2"><?= esc($primaryGroup) ?></span>
+                            <span class="badge <?= esc($badgeClass) ?> text-uppercase ms-2"><?= esc($primaryGroup) ?></span>
                           <?php endif; ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
