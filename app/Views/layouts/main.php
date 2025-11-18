@@ -26,19 +26,18 @@
       <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
   </head>
   <?php
-      $settings = app_settings();
-      $theme = $settings->theme;
-      $currentUser = null;
-      $primaryGroup = null;
-      if ($settings->allowUserThemePreference && auth()->loggedIn()) {
-          $user = auth()->user();
-        $currentUser = $user;
-        $groups = method_exists($user, 'getGroups') ? (array) $user->getGroups() : [];
-        $primaryGroup = $groups[0] ?? null;
-          if (! empty($user->theme)) {
-              $theme = $user->theme;
-          }
-      }
+      $settings     = app_settings();
+      $isLoggedIn   = function_exists('auth') && auth()->loggedIn();
+      $user         = $isLoggedIn ? auth()->user() : null;
+      $groups       = $user && method_exists($user, 'getGroups') ? (array) $user->getGroups() : [];
+      $primaryGroup = $groups[0] ?? null;
+      $theme        = ($settings->allowUserThemePreference && $user && ! empty($user->theme)) ? $user->theme : $settings->theme;
+      $isAdminArea  = function_exists('url_is') && url_is('admin*');
+      $displayName  = $user ? ($user->username ?? $user->email ?? '') : '';
+          // Determine admin access without relying on helper availability to satisfy static analyzers
+          $canAdminAccess = $isLoggedIn && (
+            ($user && method_exists($user, 'can') && $user->can('admin.access'))
+          );
   ?>
   <body class="theme-<?= esc($theme) ?>">
     <!-- NAV + OFF-CANVAS -->
@@ -53,51 +52,44 @@
         </button>
         <div class="collapse navbar-collapse d-none d-lg-block">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a href="#hero" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="<?= base_url() ?>" class="nav-link">Home</a></li>
             <li class="nav-item"><a href="<?= site_url(route_to('blog.index')) ?>" class="nav-link">News</a></li>
             <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
             <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
-            <?php if (auth()->loggedIn()): ?>
-              <li class="nav-item">
-                  <a class="nav-link" href="<?= site_url(route_to('admin.users.index')) ?>">Users</a>
-              </li>
-            <?php endif; ?>
           </ul>
           <ul class="navbar-nav ms-auto align-items-center">
-                  <?php if (auth()->loggedIn() && function_exists('url_is') && url_is('admin*')): ?>
+                  <?php if ($isLoggedIn && $isAdminArea && $canAdminAccess): ?>
                     <li class="nav-item me-3">
                       <form action="<?= site_url(route_to('admin.settings.siteOnline')) ?>" method="post" class="d-flex align-items-center">
                         <?= csrf_field() ?>
                         <input type="hidden" name="siteOnline" value="0">
                         <div class="form-check form-switch m-0">
-                          <input class="form-check-input" type="checkbox" name="siteOnline" value="1" id="siteOnlineSwitch" <?= app_settings()->siteOnline ? 'checked' : '' ?> onchange="this.form.submit()">
-                          <label class="form-check-label ms-2" for="siteOnlineSwitch">Public</label>
+                          <input class="form-check-input" type="checkbox" name="siteOnline" value="1" id="siteOnlineSwitch" <?= $settings->siteOnline ? 'checked' : '' ?> onchange="this.form.submit()">
+                          <label class="form-check-label ms-2" for="siteOnlineSwitch">Site Online</label>
                         </div>
                       </form>
                     </li>
                   <?php endif; ?>
-                  <?php if (! auth()->loggedIn()): ?>
+                  <?php if (! $isLoggedIn): ?>
                       <li class="nav-item">
                           <a class="nav-link" href="<?= site_url(route_to('auth.login.new')) ?>">login icon</a>
                       </li>
                   <?php else: ?>
                       <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          <span>avatar icon here...</span>
                           <?php if (! empty($primaryGroup)): ?>
                             <span class="badge bg-secondary text-uppercase ms-2"><?= esc($primaryGroup) ?></span>
                           <?php endif; ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <li class="nav-item text-center">
-                              <span class="navbar-text me-2">
-                                  <?= esc(auth()->user()->username ?? auth()->user()->email) ?>
-                              </span>
+                          <li class="nav-item bg-gray-200 text-center">
+                                <span class="navbar-text me-2"><?= esc($displayName) ?></span>
                           </li>
-                          <li><hr class="dropdown-divider"></li>
                           <li><a class="dropdown-item" href="<?= site_url(route_to('account.settings.index')) ?>">My Account</a></li>
-                          <li><a class="dropdown-item" href="<?= site_url(route_to('admin.profile.index')) ?>">Admin Profile</a></li>
+                          <li><hr class="dropdown-divider"></li>
                           <li><a class="dropdown-item" href="<?= site_url(route_to('admin.dashboard.index')) ?>">Admin</a></li>
+                          <li><a class="dropdown-item" href="<?= site_url(route_to('admin.users.index')) ?>">Users</a></li>
+                          <li><a class="dropdown-item" href="<?= site_url(route_to('admin.profile.index')) ?>">Admin Profile</a></li>
                           <li><hr class="dropdown-divider"></li>
                           <li><a class="dropdown-item text-danger" href="<?= site_url('logout') ?>">Logout</a></li>
                         </ul>
@@ -118,7 +110,7 @@
           <li class="nav-item mb-2"><a href="#features" class="nav-link">Features</a></li>
           <li class="nav-item mb-2"><a href="#services" class="nav-link">Services</a></li>
           <li class="nav-item mb-2"><a href="#contact" class="nav-link">Contact</a></li>
-          <?php if (auth()->loggedIn()): ?>
+          <?php if ($isLoggedIn): ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= site_url(route_to('account.settings.index')) ?>">My Settings</a>
             </li>
