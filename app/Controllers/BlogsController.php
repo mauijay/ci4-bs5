@@ -12,16 +12,13 @@ class BlogsController extends BaseController
         return view('blogs/index', ['title' => 'Blog News']);
     }
 
-    public function show($id)
+    public function show(string $slug)
     {
-        // For demonstration, we'll return a simple JSON response.
-        $data = [
-            'id'      => $id,
-            'title'   => 'Sample Blog Post ' . $id,
-            'content' => 'This is the content of blog post ' . $id,
-        ];
-        return view('blogs/post', $data);
+        $title = ucwords(str_replace('-', ' ', $slug));
 
-
+        return view('blogs/post', [
+            'title' => $title,
+            'slug'  => $slug,
+        ]);
     }
 }

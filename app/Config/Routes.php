@@ -17,8 +17,8 @@ use App\Controllers\BlogsController;
 
 // Home
 $routes->get('/', [Home::class, 'index'], ['as' => 'home.index']);
-$routes->get('blogs', [BlogsController::class, 'index'], ['as' => 'blogs.index']);
-$routes->get('blogs/(:segment)', [BlogsController::class, 'show'], ['as' => 'blogs.show']);
+$routes->get('blogs', [BlogsController::class, 'index'], ['as' => 'blog.index']);
+$routes->get('blogs/(:segment)', [BlogsController::class, 'show'], ['as' => 'blog.show']);
 
 // Use all default routes EXCEPT login/register (standard CI4 helper)
 service('auth')->routes($routes, ['except' => ['login', 'register']]);
