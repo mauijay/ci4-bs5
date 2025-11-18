@@ -21,6 +21,7 @@ class Settings extends BaseController
             'supportEmail',
             'theme',
             'defaultLocale',
+            'siteOnline',
         ]);
 
         $newSettings = [
@@ -28,6 +29,7 @@ class Settings extends BaseController
             'supportEmail'  => $data['supportEmail'] ?? 'support@example.com',
             'theme'         => $data['theme'] ?? 'light',
             'defaultLocale' => $data['defaultLocale'] ?? 'en',
+            'siteOnline'    => $this->request->getPost('siteOnline') !== null,
             'maintenanceMode'         => $this->request->getPost('maintenanceMode') !== null,
             'adminRegistrationOnly'   => $this->request->getPost('adminRegistrationOnly') !== null,
             'allowUserThemePreference' => $this->request->getPost('allowUserThemePreference') !== null,

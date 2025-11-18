@@ -8,7 +8,7 @@
     <div class="alert alert-success"><?= esc(session('message')) ?></div>
 <?php endif; ?>
 
-<form action="<?= site_url('admin/settings') ?>" method="post" class="row g-3">
+<form action="<?= site_url(route_to('admin.settings.update')) ?>" method="post" class="row g-3">
     <?= csrf_field() ?>
 
     <div class="col-md-6">
@@ -45,6 +45,14 @@
                 </option>
             <?php endforeach; ?>
         </select>
+    </div>
+
+    <div class="col-md-3 form-check mt-4">
+        <input class="form-check-input"
+               type="checkbox" name="siteOnline"
+               <?= $settings->siteOnline ? 'checked' : '' ?>>
+        <label class="form-check-label">Site Online (Public)</label>
+        <div class="form-text">When unchecked, only superadmins or users with permission may view the site.</div>
     </div>
 
     <div class="col-md-3 form-check mt-4">
