@@ -9,6 +9,7 @@ use App\Controllers\Admin\Users;
 use App\Controllers\Admin\Settings as AdminSettings;
 use App\Controllers\Account\Settings as AccountSettings;
 use App\Controllers\Api\V1\Health;
+use App\Controllers\BlogsController;
 
 /**
  * @var RouteCollection $routes
@@ -16,6 +17,8 @@ use App\Controllers\Api\V1\Health;
 
 // Home
 $routes->get('/', [Home::class, 'index'], ['as' => 'home.index']);
+$routes->get('blogs', [BlogsController::class, 'index'], ['as' => 'blogs.index']);
+$routes->get('blogs/(:segment)', [BlogsController::class, 'show'], ['as' => 'blogs.show']);
 
 // Use all default routes EXCEPT login/register (standard CI4 helper)
 service('auth')->routes($routes, ['except' => ['login', 'register']]);
