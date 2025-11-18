@@ -36,7 +36,7 @@ $routes->get('login', [LoginController::class, 'loginView'], ['as' => 'auth.logi
 $routes->post('login', [LoginController::class, 'loginAction'], ['as' => 'auth.login.submit']);
 
 // Admin group – protected with Shield admin group filter
-$routes->group('admin', ['filter' => 'group:admin'], static function ($routes): void {
+$routes->group('admin', ['filter' => 'permission:admin.access'], static function ($routes): void {
     $routes->get('/', [Dashboard::class, 'index'], ['as' => 'admin.dashboard.index']);
     $routes->get('users', [Users::class, 'index'], ['as' => 'admin.users.index']);
     $routes->get('settings', [AdminSettings::class, 'index'], ['as' => 'admin.settings.index']);
