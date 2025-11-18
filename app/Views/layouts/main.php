@@ -88,6 +88,7 @@
                           </li>
                           <li><hr class="dropdown-divider"></li>
                           <li><a class="dropdown-item" href="<?= site_url(route_to('account.settings.index')) ?>">My Account</a></li>
+                          <li><a class="dropdown-item" href="<?= site_url(route_to('admin.profile.index')) ?>">Admin Profile</a></li>
                           <li><a class="dropdown-item" href="<?= site_url(route_to('admin.dashboard.index')) ?>">Admin</a></li>
                           <li><hr class="dropdown-divider"></li>
                           <li><a class="dropdown-item text-danger" href="<?= site_url('logout') ?>">Logout</a></li>
@@ -114,6 +115,9 @@
                 <a class="nav-link" href="<?= site_url(route_to('account.settings.index')) ?>">My Settings</a>
             </li>
             <hr>
+            <li class="nav-item">
+              <a class="nav-link" href="<?= site_url(route_to('admin.profile.index')) ?>">Profile</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="<?= site_url(route_to('admin.dashboard.index')) ?>">Admin</a>
             </li>
