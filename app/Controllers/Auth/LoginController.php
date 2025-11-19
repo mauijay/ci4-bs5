@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Login controller (extends Shield)
  *
@@ -7,7 +8,6 @@
  * @license    MIT
  * @link       https://github.com/mauijay/ci4-bs5
  */
-
 
 namespace App\Controllers\Auth;
 

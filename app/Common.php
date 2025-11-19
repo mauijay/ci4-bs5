@@ -13,3 +13,13 @@
  *
  * @see: https://codeigniter.com/user_guide/extending/common.html
  */
+
+if (! function_exists('site_offline')) {
+  /**
+   * Determines whether the site is offline.
+   */
+    function site_offline(): bool
+    {
+        return empty(setting('App.siteOnline'));
+    }
+}

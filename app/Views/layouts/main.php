@@ -12,13 +12,13 @@
       <!-- Open Graph / Facebook -->
       <meta property="og:type" content="website">
       <meta property="og:url" content="<?= current_url() ?> ">
-      <meta property="og:title" content="<?= esc($title ?? app_settings()->siteName) ?>">
+      <meta property="og:title" content="<?= esc($post['title'] ?? $title) ?>">
       <meta property="og:description" content="Your page/post summary.">
       <meta property="og:image" content="https://www.example.com/images/og-image.jpg">
       <!-- Twitter -->
       <meta property="twitter:card" content="summary_large_image">
       <meta property="twitter:url" content="<?= current_url() ?>">
-      <meta property="twitter:title" content="<?= esc($title ?? app_settings()->siteName) ?>">
+      <meta property="twitter:title" content="<?= esc($post['title'] ?? $title) ?>">
       <meta property="twitter:description" content="Your page/post summary.">
       <meta property="twitter:image" content="https://www.example.com/images/og-image.jpg">
       <!-- Favicon -->
@@ -41,7 +41,7 @@
           );
       // Badge color classes per primary group
       $groupBadgeClasses = [
-        'superadmin' => 'bg-danger',
+        'superadmin' => 'bg-success',
         'admin'      => 'bg-primary',
         'developer'  => 'bg-warning text-dark',
         'beta'       => 'bg-info text-dark',

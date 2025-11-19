@@ -14,6 +14,9 @@ final class AccessControlTest extends CIUnitTestCase
 
     public static function setUpBeforeClass(): void
     {
+        // Ensure security helper available for CSRF token generation in tests
+        helper('security');
+
         $migrations = Services::migrations();
         // Ensure migrations run on the testing DB connection
         if (method_exists($migrations, 'setGroup')) {
@@ -56,7 +59,7 @@ final class AccessControlTest extends CIUnitTestCase
         $this->createUser($email, $password);
 
         // Login via HTTP to establish session
-        $login = $this->post('login', [
+        $login = $this->withHeaders(['X-CSRF-TOKEN' => csrf_hash()])->post('login', [
             'login'    => $email,
             'password' => $password,
         ]);
@@ -73,7 +76,7 @@ final class AccessControlTest extends CIUnitTestCase
 
         $this->createUser($email, $password);
 
-        $this->post('login', [
+        $this->withHeaders(['X-CSRF-TOKEN' => csrf_hash()])->post('login', [
             'login'    => $email,
             'password' => $password,
         ])->assertRedirect();
@@ -93,7 +96,7 @@ final class AccessControlTest extends CIUnitTestCase
 
         $user = $this->createUser($email, $password, makeAdmin: true);
 
-        $this->post('login', [
+        $this->withHeaders(['X-CSRF-TOKEN' => csrf_hash()])->post('login', [
             'login'    => $email,
             'password' => $password,
         ])->assertRedirect();

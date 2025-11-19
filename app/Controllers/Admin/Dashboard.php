@@ -8,7 +8,11 @@ class Dashboard extends BaseController
 {
     public function index()
     {
-        return view('admin/dashboard', [
+      //$user = auth()->user();
+      //$user->addPermission('app.viewOffline');
+      //$user->addGroup('superadmin');
+
+      return view('admin/dashboard', [
             'title' => 'Admin Dashboard',
         ]);
     }

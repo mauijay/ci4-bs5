@@ -1,9 +1,7 @@
 <?= $this->extend('layouts/main') ?>
 
 <?= $this->section('content') ?>
-<!-- MAIN CONTENT -->
-  <main class="py-5">
-    <!-- HERO -->
+  <!-- HERO -->
     <header id="hero" class="hero d-flex align-items-center">
       <div class="container">
         <div class="row align-items-center">
@@ -140,6 +138,5 @@
         </div>
       </div>
     </section>
-  </main>
 <?= $this->endSection() ?>
 

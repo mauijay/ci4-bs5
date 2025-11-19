@@ -48,12 +48,6 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'onlinefilter'  => OnlineCheckFilter::class,
-        // CodeIgniter Shield filters
-        // 'session'       => \CodeIgniter\Shield\Filters\SessionAuth::class,
-        // 'token'         => \CodeIgniter\Shield\Filters\TokenAuth::class,
-        // 'chain'         => \CodeIgniter\Shield\Filters\ChainAuth::class,
-        // 'group'         => \CodeIgniter\Shield\Filters\GroupFilter::class,
-        // 'permission'    => \CodeIgniter\Shield\Filters\PermissionFilter::class,
     ];
 
     /**
