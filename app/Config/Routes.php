@@ -8,6 +8,7 @@ use App\Controllers\Admin\Dashboard;
 use App\Controllers\Admin\Users;
 use App\Controllers\Admin\Profile as AdminProfile;
 use App\Controllers\Admin\Settings as AdminSettings;
+use App\Controllers\Admin\ImageController as AdminImages;
 use App\Controllers\Account\Settings as AccountSettings;
 use App\Controllers\Api\V1\Health;
 use App\Controllers\Admin\BlogController;
@@ -53,6 +54,11 @@ $routes->group('admin', ['filter' => 'permission:admin.access'], static function
     $routes->get('settings',              [AdminSettings::class, 'index'], ['as' => 'admin.settings.index']);
     $routes->post('settings',             [AdminSettings::class, 'update'], ['as' => 'admin.settings.update']);
     $routes->post('settings/site-online', [AdminSettings::class, 'siteOnline'], ['as' => 'admin.settings.siteOnline']);
+
+    // Images Admin
+    $routes->get('images',                [AdminImages::class, 'index'],  ['as' => 'admin.images.index']);
+    $routes->get('images/(:num)',         [AdminImages::class, 'edit'],   ['as' => 'admin.images.edit']);
+    $routes->post('images/(:num)',        [AdminImages::class, 'update'], ['as' => 'admin.images.update']);
 
     // Blog Admin
     $routes->get('blogs',                 [BlogController::class, 'index'],  ['as' => 'admin.blogs.index']);

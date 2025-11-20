@@ -15,6 +15,8 @@ class BlogModel extends Model
     protected $allowedFields    = [
       'title',
       'slug',
+      'seo_title',
+      'seo_description',
       'summary',
       'content',
       'blockquote',
@@ -22,9 +24,6 @@ class BlogModel extends Model
       'author_id',
       'category_id',
       'image_id',
-      'image_alt',
-      'image', //legacy, will remove when introduce image service
-      'tags',
       'status',
       'published_at',
     ];
@@ -58,4 +57,15 @@ class BlogModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function withImage()
+    {
+        return $this->select('blogs.*, images.path AS image, images.alt AS image_alt')
+                    ->join('images', 'images.id = blogs.image_id', 'left');
+    }
+
+    public function published()
+    {
+      return $this->where('status', 'published');
+    }
 }

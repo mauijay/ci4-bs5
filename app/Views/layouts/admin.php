@@ -39,6 +39,11 @@
             </a>
           </li>
           <li class="nav-item mb-1">
+            <a href="<?= site_url(route_to('admin.images.index')) ?>" class="nav-link py-2 px-3">
+              Images
+            </a>
+          </li>
+          <li class="nav-item mb-1">
             <a href="<?= site_url(route_to('admin.users.index')) ?>" class="nav-link py-2 px-3">
               Users
             </a>

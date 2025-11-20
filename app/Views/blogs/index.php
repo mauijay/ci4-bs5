@@ -1,14 +1,19 @@
 <?= $this->extend('layouts/main') ?>
 
 <?= $this->section('head_js') ?>
+<?php
+use Config\AppSettings;
+
+$appSettings = config(AppSettings::class);
+?>
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Blog",
-  "url": "https://www.example.com/blog",
-  "name": "Blog",
-  "description": "Latest posts from YourSiteName"
+  "url": "<?= esc(site_url(route_to('blog.index'))) ?>",
+  "name": "<?= esc($appSettings->siteName) ?>",
+  "description": "<?= esc($appSettings->siteTagline) ?>"
 }
 </script>
 
@@ -83,20 +88,25 @@
             <?php else: ?>
               <?php foreach ($posts as $post): ?>
                 <?php
-                    $image      = $post['image'] ?? '';
-                    $imageAlt   = $post['image_alt'] ?? '';
-                    $imageBase  = pathinfo($image, PATHINFO_FILENAME); // e.g. "my-beautiful-ci-flame-1200"
-                    $imageBase  = preg_replace('/-(\d+)$/', '', $imageBase); // strip trailing -1200 -> "my-beautiful-ci-flame"
+                    $image    = $post['image'] ?? '';
+                    $imageAlt = $post['image_alt'] ?? '';
 
-                    // Check if optimized directory exists; use fallback if not
-                    $publicPath      = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'optimized' . DIRECTORY_SEPARATOR . $imageBase;
-                    $hasOptimizedSet = is_dir($publicPath);
+                    if ($image) {
+                        $imageBase = pathinfo($image, PATHINFO_FILENAME);
+                        $imageBase = preg_replace('/-(\d+)$/', '', $imageBase);
+
+                        $publicPath      = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'optimized' . DIRECTORY_SEPARATOR . $imageBase;
+                        $hasOptimizedSet = is_dir($publicPath);
+                    } else {
+                        $imageBase       = '';
+                        $hasOptimizedSet = false;
+                    }
                 ?>
                 <article class="col-12 col-md-6 col-lg-4">
                   <div class="card h-100 shadow-sm">
                     <div class="aspect aspect-16x9 mb-3">
                       <?php if ($hasOptimizedSet): ?>
-                        <!-- responsive picture using optimized set -->
+                       <!-- responsive picture using optimized set -->
                         <picture>
                           <source type="image/webp" srcset="
                             /uploads/optimized/<?= esc($imageBase) ?>/<?= esc($imageBase) ?>-300.webp 300w,
@@ -119,11 +129,20 @@
                             class="img-fluid"
                           >
                         </picture>
-                      <?php else: ?>
+                      <?php elseif ($image): ?>
                         <!-- fallback to original single image -->
                         <img
-                          src="/uploads/<?= esc($image) ?>"
+                          src="<?= esc($image) ?>"
                           alt="<?= esc($imageAlt) ?>"
+                          loading="lazy"
+                          decoding="async"
+                          class="img-fluid"
+                        >
+                      <?php else: ?>
+                        <!-- optional: global default image -->
+                        <img
+                          src="/uploads/default_img.jpg"
+                          alt="Default blog image"
                           loading="lazy"
                           decoding="async"
                           class="img-fluid"
@@ -144,43 +163,6 @@
       </section>
 
       <?= $pager->links('news-group', 'custom_full') ?>
-      <section>
-      <!-- ======================
-          Sample Card
-      ======================= -->
-      <h2>Sample card, remove or replace this section</h2>
-      <article class="blog-card card h-100 shadow-sm">
-        <div class="aspect aspect-16x9 mb-3">
-          <picture>
-            <source type="image/webp" srcset="
-                /uploads/optimized/my-beautiful-ci-flame/my-beautiful-ci-flame-300.webp 300w,
-                /uploads/optimized/my-beautiful-ci-flame/my-beautiful-ci-flame-600.webp 600w,
-                /uploads/optimized/my-beautiful-ci-flame/my-beautiful-ci-flame-900.webp 900w,
-                /uploads/optimized/my-beautiful-ci-flame/my-beautiful-ci-flame-1200.webp 1200w
-            ">
-            <img
-              src="/uploads/optimized/my-beautiful-ci-flame/my-beautiful-ci-flame-1200.jpg"
-              srcset="
-                /uploads/optimized/my-beautiful-ci-flame/my-beautiful-ci-flame-300.jpg 300w,
-                /uploads/optimized/my-beautiful-ci-flame/my-beautiful-ci-flame-600.jpg 600w,
-                /uploads/optimized/my-beautiful-ci-flame/my-beautiful-ci-flame-900.jpg 900w,
-                /uploads/optimized/my-beautiful-ci-flame/my-beautiful-ci-flame-1200.jpg 1200w
-              "
-              sizes="100vw"
-              alt="My Beautiful Ci Flame"
-              loading="lazy"
-              decoding="async"
-              class="img-fluid"
-            >
-          </picture>
-        </div>
-        <div class="card-body">
-          <h3 class="h5 card-title">Blog Post Title</h3>
-          <p class="card-text text-muted">Short excerpt that introduces the post...</p>
-          <a href="#" class="btn btn-sm btn-primary">Read More</a>
-        </div>
-      </article>
-      </section>
 
       <!-- ======================
           RELATED POSTS (3)

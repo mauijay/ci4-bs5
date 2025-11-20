@@ -7,19 +7,22 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\BlogModel;
 use App\Models\CategoryModel;
 use App\Models\TagModel;
+use App\Libraries\ImageService;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class BlogController extends BaseController
 {
-   protected BlogModel $blogModel;
+    protected BlogModel $blogModel;
     protected CategoryModel $categoryModel;
     protected TagModel $tagModel;
+     protected ImageService $imageService;
 
     public function __construct()
     {
         $this->blogModel     = model(BlogModel::class);
         $this->categoryModel = model(CategoryModel::class);
         $this->tagModel      = model(TagModel::class);
+        $this->imageService  = new ImageService();
     }
     public function index(): string
     {
@@ -48,12 +51,30 @@ class BlogController extends BaseController
     {
         $data = $this->request->getPost();
 
+        // Ensure we have a slug to reuse for image filenames
+        $slug = url_title($data['title'] ?? '', '-', true);
+
+        // Handle featured image upload if provided
+        $imageFile = $this->request->getFile('image_file');
+        if ($imageFile && $imageFile->isValid() && ! $imageFile->hasMoved()) {
+            $imageId = $this->imageService->storePostImage(
+                $imageFile,
+                $data['image_alt'] ?? null,
+                $data['title'] ?? null,
+                $slug
+            );
+            $data['image_id']  = $imageId;
+        }
+
         $this->blogModel->insert([
             'title'         => $data['title'] ?? '',
-            'slug'          => url_title($data['title'] ?? '', '-', true),
+            'slug'          => $slug,
             'summary'       => $data['summary'] ?? '',
+            'seo_title'     => $data['seo_title'] ?? null,
+            'seo_description' => $data['seo_description'] ?? null,
             'content'       => $data['content'] ?? '',
             'category_id'   => $data['category_id'] ?? null,
+            'image_id'      => $data['image_id'] ?? null,
             'status'        => $data['status'] ?? 'draft',
             'published_at'  => $data['published_at'] ?: date('Y-m-d H:i:s'),
         ]);
@@ -63,7 +84,7 @@ class BlogController extends BaseController
 
     public function edit(int $id): string
     {
-        $post = $this->blogModel->find($id);
+        $post = $this->blogModel->withImage()->find($id);
 
         if (! $post) {
             throw PageNotFoundException::forPageNotFound();
@@ -81,14 +102,32 @@ class BlogController extends BaseController
     {
         $data = $this->request->getPost();
 
+        // Regenerate slug from title consistently (and reuse for image filename)
+        $slug = url_title($data['title'] ?? '', '-', true);
+
+        // Handle featured image upload if provided
+        $imageFile = $this->request->getFile('image_file');
+        if ($imageFile && $imageFile->isValid() && ! $imageFile->hasMoved()) {
+            $imageId = $this->imageService->storePostImage(
+                $imageFile,
+                $data['image_alt'] ?? null,
+                $data['title'] ?? null,
+                $slug
+            );
+            $data['image_id']  = $imageId;
+        }
+
         $this->blogModel->update($id, [
-            'title'        => $data['title'] ?? '',
-            'slug'         => url_title($data['title'] ?? '', '-', true),
-            'summary'      => $data['summary'] ?? '',
-            'content'      => $data['content'] ?? '',
-            'category_id'  => $data['category_id'] ?? null,
-            'status'       => $data['status'] ?? 'draft',
-            'published_at' => $data['published_at'] ?: date('Y-m-d H:i:s'),
+            'title'          => $data['title'] ?? '',
+            'slug'           => $slug,
+            'summary'        => $data['summary'] ?? '',
+            'seo_title'      => $data['seo_title'] ?? null,
+            'seo_description'=> $data['seo_description'] ?? null,
+            'content'        => $data['content'] ?? '',
+            'category_id'    => $data['category_id'] ?? null,
+            'image_id'       => $data['image_id'] ?? null,
+            'status'         => $data['status'] ?? 'draft',
+            'published_at'   => $data['published_at'] ?: date('Y-m-d H:i:s'),
         ]);
 
         return redirect()->route('admin.blogs.index')->with('message', 'Post updated.');

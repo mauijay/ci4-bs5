@@ -17,9 +17,9 @@ class BlogsSeeder extends Seeder
         $this->call(CategoriesSeeder::class);
         $this->call(TagsSeeder::class);
 
-        $db = $this->db;
-        $blogs     = $db->table('blogs');
-        $blogTags  = $db->table('blog_tags');
+        $db         = $this->db;
+        $blogs      = $db->table('blogs');
+        $blogTags   = $db->table('blog_tags');
         $categories = $db->table('categories')->get()->getResultArray();
         $tags       = $db->table('tags')->get()->getResultArray();
 
@@ -43,6 +43,8 @@ class BlogsSeeder extends Seeder
             $blogData = [
                 'title'          => $title,
                 'slug'           => $slug,
+                'seo_title'      => $title,
+                'seo_description'=> $faker->sentences(2, true),
                 'summary'        => $faker->sentences(2, true),
                 'content'        => $content,
                 'blockquote'     => $faker->boolean(60) ? $faker->sentence(12) : null,
@@ -50,9 +52,6 @@ class BlogsSeeder extends Seeder
                 'author_id'      => 1, // assume first user; adjust if needed
                 'category_id'    => $faker->randomElement($categoryIds),
                 'image_id'       => null,
-                'image_alt'      => $faker->words(3, true),
-                'image'          => '/uploads/default_img.jpg',
-                'tags'           => null, // legacy field unused now
                 'status'         => 'published',
                 'created_at'     => $now,
                 'updated_at'     => $now,

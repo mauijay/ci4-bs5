@@ -30,14 +30,6 @@ class BlogsTable extends Migration
             'content'     => [
                 'type' => 'TEXT',
             ],
-            'blockquote'  => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
-            'final_thoughts' => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
             'author_id'   => [
                 'type'       => 'INT',
                 'constraint' => 11,
@@ -47,6 +39,10 @@ class BlogsTable extends Migration
                 'type'       => 'INT',
                 'constraint' => 11,
                 'unsigned'   => true,
+            ],
+            'tags'        => [
+                'type' => 'TEXT',
+                'null' => true,
             ],
             'image_id'    => [
                 'type'       => 'INT',
@@ -64,24 +60,16 @@ class BlogsTable extends Migration
                 'constraint' => 255,
                 'null'       => true,
             ],
-            'tags'        => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
             'status'      => [
                 'type'       => 'ENUM',
                 'constraint' => ['draft', 'published', 'archived'],
                 'default'    => 'draft',
             ],
-            'created_at'  => [
+            'published_at'=> [
                 'type'    => 'DATETIME',
                 'null'    => true,
             ],
             'updated_at'  => [
-                'type'    => 'DATETIME',
-                'null'    => true,
-            ],
-            'published_at'=> [
                 'type'    => 'DATETIME',
                 'null'    => true,
             ],

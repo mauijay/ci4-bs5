@@ -17,7 +17,11 @@ class BlogsController extends BaseController
       $blogModel      = model(BlogModel::class);
       $categoryModel  = model(CategoryModel::class);
       $tagModel       = model(TagModel::class);
-      $posts          = $blogModel->paginate(12, 'news-group');
+    $posts          = $blogModel
+                    ->withImage()
+                    ->published()
+                    ->orderBy('published_at', 'DESC')
+                    ->paginate(12, 'news-group');
       $pager          = $blogModel->pager;
       $data = [
           'title' => 'Blog News',
@@ -60,11 +64,23 @@ class BlogsController extends BaseController
      */
     public function show(string $slug): string
     {
-        $title = ucwords(str_replace('-', ' ', $slug));
+        $model = model(BlogModel::class);
+
+                $post = $model
+                        ->withImage()
+                        ->published()
+                        ->where('slug', $slug)
+                        ->first();
+
+        if (! $post) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $title = $post['title'];
 
         return view('blogs/post', [
             'title' => $title,
-            'slug'  => $slug,
+            'post'  => $post,
         ]);
     }
 }

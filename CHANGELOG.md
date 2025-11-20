@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2025.11.19 — 2025-11-19
+
+### 2025.11.19 Highlights
+
+- Blog: Added SEO-friendly blog images with `images` table and `ImageService`.
+- Blog: Implemented responsive `<picture>` sets and WebP via `optimize-images.sh`.
+- SEO: Per-post meta, OpenGraph/Twitter cards, and JSON-LD for posts and index.
+
+### 2025.11.19 Admin UX
+
+- Admin: Blog CRUD now supports image upload, preview, and alt text.
+- Admin: Added basic image manager for listing and editing image metadata.
+
+### 2025.11.19 Developer Experience
+
+- Images: Slug-based filenames under `public/uploads/images` with optimized variants.
+- Config: `AppSettings` powers blog/index SEO titles, descriptions, and publisher logo.
+
+### 2025.11.19 Upgrade Notes
+
+- Run `./scripts/optimize-images.sh public/uploads/images` after adding new originals.
+- Replace demo images/content as needed; blog now prefers `images` table over legacy fields.
+
 ## v2025.11.17 — 2025-11-17
 
 ### Highlights

@@ -265,12 +265,12 @@ generate_html_snippet() {
 # ============================================================
 process_image() {
   local img=$(normalize_path "$1")
-  local filename name ext imagedir outdir
+  local filename name ext outdir
   filename=$(basename "$img")
   name="${filename%.*}"
   ext="${filename##*.}"
-  imagedir=$(dirname "$img")
-  outdir="$imagedir/optimized/$name"
+  # Always write optimized variants under public/uploads/optimized/<name>
+  outdir="public/uploads/optimized/$name"
 
   mkdir -p "$outdir"
 
@@ -357,5 +357,6 @@ fi
 
 # --------------------------
 # ./scripts/optimize-images.sh public/uploads/my-beautiful-ci-flame.jpg
+# ./scripts/optimize-images.sh public/uploads/images
 #  End of Script
 # --------------------------

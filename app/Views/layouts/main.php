@@ -3,24 +3,40 @@
   <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title><?= esc($title ?? app_settings()->siteName) ?></title>
+      <?php
+        $siteName        = app_settings()->siteName;
+        $pageTitle       = $seo_title ?? ($title ?? $siteName);
+        $metaDescription = $seo_description
+          ?? ($post['summary'] ?? ($summary ?? 'Your page or post description goes here. 155–160 chars is ideal.'));
+      ?>
+      <title><?= esc($pageTitle) ?></title>
       <!-- Primary Meta Tags -->
-      <meta name="title" content="<?= esc($title ?? app_settings()->siteName) ?>">
-      <meta name="description" content="Your page or post description goes here. 155–160 chars is ideal.">
+      <meta name="title" content="<?= esc($pageTitle) ?>">
+      <meta name="description" content="<?= esc($metaDescription) ?>">
+      <?php
+        $path      = current_url(true)->getPath(); // e.g. 'auth/login', 'admin/users'
+        $isNoIndex = str_starts_with($path, 'auth') || str_starts_with($path, 'admin');
+      ?>
+      <?php if ($isNoIndex): ?>
+        <meta name="robots" content="noindex, nofollow">
+      <?php endif; ?>
       <!-- Canonical -->
       <link rel="canonical" href="<?= current_url() ?>">
       <!-- Open Graph / Facebook -->
       <meta property="og:type" content="website">
-      <meta property="og:url" content="<?= current_url() ?> ">
-      <meta property="og:title" content="<?= esc($post['title'] ?? $title) ?>">
-      <meta property="og:description" content="Your page/post summary.">
-      <meta property="og:image" content="https://www.example.com/images/og-image.jpg">
+      <meta property="og:url" content="<?= current_url() ?>">
+      <meta property="og:title" content="<?= esc($pageTitle) ?>">
+      <meta property="og:description" content="<?= esc($metaDescription) ?>">
+      <?php
+        $ogImage = $post['image'] ?? '/uploads/default_img.jpg';
+      ?>
+      <meta property="og:image" content="<?= esc(base_url($ogImage)) ?>">
       <!-- Twitter -->
       <meta property="twitter:card" content="summary_large_image">
       <meta property="twitter:url" content="<?= current_url() ?>">
-      <meta property="twitter:title" content="<?= esc($post['title'] ?? $title) ?>">
-      <meta property="twitter:description" content="Your page/post summary.">
-      <meta property="twitter:image" content="https://www.example.com/images/og-image.jpg">
+      <meta property="twitter:title" content="<?= esc($pageTitle) ?>">
+      <meta property="twitter:description" content="<?= esc($metaDescription) ?>">
+      <meta property="twitter:image" content="<?= esc(base_url($ogImage)) ?>">
       <!-- Favicon -->
       <link rel="icon" type="image/png" href="/favicon.png">
       <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
@@ -103,7 +119,7 @@
                           </li>
                           <li><a class="dropdown-item" href="<?= site_url(route_to('account.settings.index')) ?>">My Account</a></li>
                           <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="<?= site_url(route_to('admin.dashboard.index')) ?>">Admin</a></li>
+                          <li><a class="dropdown-item" href="<?= site_url(route_to('admin.dashboard.index')) ?>">Dashboard</a></li>
                           <li><a class="dropdown-item" href="<?= site_url(route_to('admin.users.index')) ?>">Users</a></li>
                           <li><a class="dropdown-item" href="<?= site_url(route_to('admin.profile.index')) ?>">Admin Profile</a></li>
                           <li><hr class="dropdown-divider"></li>
@@ -144,45 +160,88 @@
         </ul>
       </div>
     </div>
-    <!--BreadCrumbs-->
-    <nav class="breadcrumb-wrapper" aria-label="Breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Home</a></li>
-        <li class="breadcrumb-item"><a href="/blog">Blog</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Post Title</li>
-      </ol>
-    </nav>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://www.example.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Blog",
-            "item": "https://www.example.com/blog"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Design",
-            "item": "https://www.example.com/blog/design"
-          },
-          {
-            "@type": "ListItem",
-            "position": 4,
-            "name": "Post Title"
-          }
-        ]
-      }
-    </script>
+    <?php
+      // Simple breadcrumb config controlled by views via $breadcrumbType, $category, $post
+      // breadcrumbType can be: 'none', 'blog_index', 'category', 'post'. Default: 'none' on home.
+      $breadcrumbType = $breadcrumbType ?? 'none';
+      $categoryName   = $category['name'] ?? null;
+      $postTitle      = $post['title'] ?? null;
+    ?>
+
+    <?php if ($breadcrumbType !== 'none'): ?>
+      <nav class="breadcrumb-wrapper" aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="<?= site_url(route_to('home.index')) ?>">Home</a></li>
+          <?php if (in_array($breadcrumbType, ['blog_index', 'category', 'post'], true)): ?>
+            <li class="breadcrumb-item"><a href="<?= site_url(route_to('blog.index')) ?>">Blog</a></li>
+          <?php endif; ?>
+
+          <?php if (in_array($breadcrumbType, ['category', 'post'], true) && $categoryName): ?>
+            <li class="breadcrumb-item">
+              <a href="<?= site_url(route_to('blog.category', $category['slug'])) ?>"><?php echo esc($categoryName); ?></a>
+            </li>
+          <?php endif; ?>
+
+          <?php if ($breadcrumbType === 'post' && $postTitle): ?>
+            <li class="breadcrumb-item active" aria-current="page"><?php echo esc($postTitle); ?></li>
+          <?php elseif ($breadcrumbType === 'blog_index'): ?>
+            <li class="breadcrumb-item active" aria-current="page">Blog</li>
+          <?php elseif ($breadcrumbType === 'category' && $categoryName): ?>
+            <li class="breadcrumb-item active" aria-current="page"><?php echo esc($categoryName); ?></li>
+          <?php endif; ?>
+        </ol>
+      </nav>
+
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "<?= site_url(route_to('home.index')) ?>"
+            }
+            <?php if (in_array($breadcrumbType, ['blog_index', 'category', 'post'], true)): ?>,
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Blog",
+              "item": "<?= site_url(route_to('blog.index')) ?>"
+            }
+            <?php endif; ?>
+            <?php if (in_array($breadcrumbType, ['category', 'post'], true) && $categoryName): ?>,
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "<?= esc($categoryName) ?>",
+              "item": "<?= site_url(route_to('blog.category', $category['slug'])) ?>"
+            }
+            <?php endif; ?>
+            <?php if ($breadcrumbType === 'post' && $postTitle): ?>,
+            {
+              "@type": "ListItem",
+              "position": <?= in_array($breadcrumbType, ['category', 'post'], true) && $categoryName ? 4 : 3 ?>,
+              "name": "<?= esc($postTitle) ?>"
+            }
+            <?php elseif ($breadcrumbType === 'blog_index'): ?>,
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Blog"
+            }
+            <?php elseif ($breadcrumbType === 'category' && $categoryName): ?>,
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "<?= esc($categoryName) ?>"
+            }
+            <?php endif; ?>
+          ]
+        }
+      </script>
+    <?php endif; ?>
     <main class="py-5">
       <!-- MAIN CONTENT -->
       <?= $this->renderSection('content') ?>

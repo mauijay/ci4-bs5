@@ -8,6 +8,8 @@ class AppSettings extends BaseConfig
 {
     // General
     public string $siteName = 'My CI4 BS5 App';
+    public string $siteTagline = 'An example CodeIgniter 4 and Bootstrap 5 application';
+    public string $siteLogo = '/assets/img/site-logo.png';
     public bool $maintenanceMode = false;
     /**
    * --------------------------------------------------------------------------
