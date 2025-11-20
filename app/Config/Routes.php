@@ -22,6 +22,7 @@ use App\Controllers\TagsController;
 
 // Home
 $routes->get('/', [Home::class, 'index'], ['as' => 'home.index']);
+$routes->get('about', [Home::class, 'about'], ['as' => 'home.about']);
 
 // Blog, categories and tags
 $routes->get('blogs',                     [BlogsController::class, 'index'], ['as' => 'blog.index']);

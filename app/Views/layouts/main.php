@@ -131,6 +131,15 @@
         </div>
       </div>
     </nav>
+    <section class="message-banner bg-light">
+      <div class="container text-center">
+        <span>
+          <small id="message-banner-content">
+            <p>1170-D Kamahele Street, Kailua, HI 96734, <a href="tel:808-263-8223">(808)263-8223</a> <a href="https://www.instagram.com/frankolivaislandart/" target="_blank" rel="noopener noreferrer"><img src="/assets/images/favicons/ig2.png" height="25" width="96" alt="Instagram logo in gradient colors with camera icon, link to Frank Oliva Island Art profile" /> @frankolivaislandart</a></p>
+          </small>
+        </span>
+    </div>
+    </section>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNav">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title">Menu</h5>

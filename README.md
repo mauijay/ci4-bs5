@@ -247,6 +247,19 @@ Token notes:
 - This endpoint requires a Shield token via `Authorization: Bearer <token>`.
 - Generate/manage tokens using your existing Shield token flow for this project. Refer to CodeIgniter Shield documentation for Personal Access Tokens.
 
+## Blog Images & Optimization
+
+- Originals: Upload blog images via the admin Blog form; files are stored under `public/uploads/images` using slug-based filenames (for example: `my-first-post.jpg`).
+- Database: Image metadata (path, alt text, dimensions) is stored in the `images` table and linked to blogs, so views can access `$post['image']` and `$post['image_alt']` via `BlogModel::withImage()`.
+- Optimized variants: Generate responsive JPG/WebP sets with:
+
+```bash
+./scripts/optimize-images.sh public/uploads/images
+```
+
+- Output structure: Optimized images are written under `public/uploads/optimized/<basename>/<basename>-{300,600,900,1200}.{jpg,webp}` and consumed by the blog index `<picture>` markup.
+- Fallbacks: If no optimized set exists for a post, the views fall back to the original image, and finally to a default placeholder image.
+
 ## Release Notes & Labels
 
 This repository uses `.github/release.yml` to auto-generate release notes grouped by labels.

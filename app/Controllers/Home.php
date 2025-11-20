@@ -17,4 +17,9 @@ class Home extends BaseController
     {
         return view('home', ['title' => 'Welcome Home in My CI4 BS5 App']);
     }
+
+    public function about(): string
+    {
+        return view('about', ['title' => 'Temp Page, will become the new home page']);
+    }
 }
